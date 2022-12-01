@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using hogwarts_houses_api.Models;
+using hogwarts_houses_api.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,37 +10,56 @@ namespace hogwarts_houses_api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        // GET: api/<UserController>
+        IUserRepository _repository;
+
+        public UserController(IUserRepository repository)
+        {
+            _repository = repository;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            var users = _repository.GetAll();
+            if (users.Count < 1)
+                return NotFound();
+
+            return Ok(users);
         }
 
-        // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var user = _repository.GetById(id);
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
         }
 
-        // POST api/<UserController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] User user)
         {
+            var createdUser = await _repository.Create(user);
+
+            return Created("", createdUser);
         }
 
-        // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] User user)
         {
+            var updatedUser = await _repository.Update(id, user);
+
+            return Ok(updatedUser);
         }
 
-        // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] User user)
         {
-        }
+
+
+            return Ok();
+        } 
 
         [HttpPost("chooseHouse")]
         public void ChooseHouse()

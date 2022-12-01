@@ -1,0 +1,11 @@
+{
+  "user": [
+    {
+      "id": 0,
+      "name": "string",
+      "email": "string",
+      "password": "string",
+      "houseId": 0
+    }
+  ]
+}
