@@ -2,8 +2,6 @@
 using hogwarts_houses_api.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace hogwarts_houses_api.Controllers
 {
     [Route("[controller]")]
@@ -21,7 +19,7 @@ namespace hogwarts_houses_api.Controllers
         public IActionResult Get()
         {
             var users = _repository.GetAll();
-            if (users.Count < 1)
+            if (!users.Any())
                 return NotFound();
 
             return Ok(users);
@@ -53,17 +51,12 @@ namespace hogwarts_houses_api.Controllers
             return Ok(updatedUser);
         }
 
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] User user)
+        [HttpPost("{id}/chooseHouse")]
+        public async Task<IActionResult> ChooseHouse(int id)
         {
+            var house = await _repository.ChooseHouse(id);
 
-
-            return Ok();
-        } 
-
-        [HttpPost("chooseHouse")]
-        public void ChooseHouse()
-        {
+            return Ok(house);
         }
     }
 }

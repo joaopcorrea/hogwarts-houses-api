@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using hogwarts_houses_api.Models;
+using hogwarts_houses_api.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace hogwarts_houses_api.Controllers
 {
@@ -8,51 +8,69 @@ namespace hogwarts_houses_api.Controllers
     [ApiController]
     public class HouseController : ControllerBase
     {
-        // GET: api/<HouseController>
+        readonly IHouseRepository _repository;
+
+        public HouseController(IHouseRepository repository)
+        {
+            _repository = repository;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            var houses = _repository.GetAll();
+            if (!houses.Any())
+                return NotFound();
+
+            return Ok(houses);
         }
 
-        // GET api/<HouseController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var house = _repository.GetById(id);
+            if (house == null)
+                return NotFound();
+
+            return Ok(house);
         }
 
-        // POST api/<HouseController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] House house)
         {
+            var createdHouse = await _repository.Create(house);
+
+            return Created("", createdHouse);
         }
 
-        // PUT api/<HouseController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] House house)
         {
+            var updatedHouse = await _repository.Update(id, house);
+
+            return Ok(updatedHouse);
         }
 
-        // DELETE api/<HouseController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            await _repository.Delete(id);
+
+            return NoContent();
         }
 
-        [HttpGet("points")]
-        public void GetPoints(int id)
+        [HttpPost("{id}/points/add/{points}")]
+        public async Task<IActionResult> AddPoints(int id, int points)
         {
+            var res = await _repository.AddPoints(id, points);
+            return Ok(res);
         }
 
-        [HttpPost("points/add/{points}")]
-        public void AddPoints(int points)
+        [HttpPost("{id}/points/subtract/{points}")]
+        public async Task<IActionResult> SubtractPoints(int id, int points)
         {
-        }
-
-        [HttpPost("points/remove/{points}")]
-        public void RemovePoints(int points)
-        {
+            var res = await _repository.SubtractPoints(id, points);
+            return Ok(res);
         }
     }
 }

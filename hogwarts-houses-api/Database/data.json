@@ -6,6 +6,53 @@
       "email": "string",
       "password": "string",
       "houseId": 0
+    },
+    {
+      "id": 1,
+      "name": "string",
+      "email": "string",
+      "password": "string",
+      "houseId": 0
+    }
+  ],
+  "task": [
+    {
+      "id": 0,
+      "title": "string",
+      "description": "string",
+      "dueDate": "2022-12-01T22:21:16.219Z",
+      "completed": true,
+      "reward": 0
+    },
+    {
+      "id": 1,
+      "title": "string",
+      "description": "string",
+      "dueDate": "2022-12-01T22:21:16.219Z",
+      "completed": true,
+      "reward": 0
+    }
+  ],
+  "house": [
+    {
+      "id": 1,
+      "name": "string",
+      "points": 0
+    },
+    {
+      "id": 2,
+      "name": "string",
+      "points": 0
+    },
+    {
+      "id": 3,
+      "name": "string",
+      "points": 0
+    },
+    {
+      "id": 4,
+      "name": "string",
+      "points": 0
     }
   ]
 }

@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using hogwarts_houses_api.Models;
+using hogwarts_houses_api.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace hogwarts_houses_api.Controllers
 {
@@ -8,36 +8,55 @@ namespace hogwarts_houses_api.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        // GET: api/<TaskController>
+        readonly ITaskRepository _repository;
+
+        public TaskController(ITaskRepository repository)
+        {
+            _repository = repository;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            var tasks = _repository.GetAll();
+            if (!tasks.Any())
+                return NotFound();
+
+            return Ok(tasks);
         }
 
-        // GET api/<TaskController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var task = _repository.GetById(id);
+            if (task == null)
+                return NotFound();
+
+            return Ok(task);
         }
 
-        // POST api/<TaskController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] Models.Task task)
         {
+            var createdTask = await _repository.Create(task);
+
+            return Created("", createdTask);
         }
 
-        // PUT api/<TaskController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] Models.Task task)
         {
+            var updatedTask = await _repository.Update(id, task);
+
+            return Ok(updatedTask);
         }
 
-        // DELETE api/<TaskController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            await _repository.Delete(id);
+
+            return NoContent();
         }
     }
 }

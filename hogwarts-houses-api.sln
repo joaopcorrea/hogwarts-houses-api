@@ -5,8 +5,6 @@ VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hogwarts-houses-api", "hogwarts-houses-api\hogwarts-houses-api.csproj", "{016398C5-5D63-4019-9239-13DD4B6E1DF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsondb", "jsondb\jsondb.csproj", "{7490CB3E-E962-4F0D-A2EA-BDF63B0E27C3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{016398C5-5D63-4019-9239-13DD4B6E1DF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{016398C5-5D63-4019-9239-13DD4B6E1DF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{016398C5-5D63-4019-9239-13DD4B6E1DF5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7490CB3E-E962-4F0D-A2EA-BDF63B0E27C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7490CB3E-E962-4F0D-A2EA-BDF63B0E27C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7490CB3E-E962-4F0D-A2EA-BDF63B0E27C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7490CB3E-E962-4F0D-A2EA-BDF63B0E27C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
